@@ -1,0 +1,6 @@
+{
+  "tsne": {
+    "epsilon": 10,
+    "perplexity": 30
+  }
+}

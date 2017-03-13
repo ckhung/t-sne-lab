@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux (vers 25 March 2009), see www.w3.org" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content=
+  "width=device-width, initial-scale=1" />
+
+  <title>t-sne-lab demo page</title>
+  <link type="text/css" rel="stylesheet" href="pure/pure-min.css">
+  <link type="text/css" rel="stylesheet" href="pure/grids-responsive-min.css">
+  <link type="text/css" rel="stylesheet" href="t-sne-lab.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div id="content" class="pure-g">
+    <div class="pure-u-1-1"><p>header</p></div>
+    <div class="pure-u-1-4">menu</div>
+    <div class="pure-u-3-4">
+	<!--  https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js -->
+        <div class="rsvg-container pure-u-1-1" id="rsvg-box"
+	  style="width: 100%; padding-bottom: 75%;">
+	  <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+	    preserveAspectRatio="xMinYMin meet"
+	    viewBox="0 0 800 600" >
+	    <!-- #rsvg-box and its inner svg must have same aspect ratio -->
+	  </svg>
+	</div>
+    </div>
+  </div><!-- #content .pure-g -->
+  <script type="text/javascript" src="d3/d3.min.js"> </script>
+  <script type="text/javascript" src="jqui/external/jquery/jquery.js"></script>
+  <script type="text/javascript" src="jqui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="tsne.js"> </script>
+  <script type="text/javascript" src="t-sne-lab.js"> </script>
+</body>
+</html>

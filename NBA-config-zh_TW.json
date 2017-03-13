@@ -1,0 +1,19 @@
+{
+  "filename": {
+    "regions": "NBA-teams-zh_TW.csv",
+    "data": "NBA-data-zh_TW.csv"
+  },
+  "dimExpr": {
+    "region": "球隊",
+    "time": "年度",
+    "xAxis": "球隊數據:防守數據:平均每場被得分",
+    "yAxis": "球隊數據:進攻數據:平均每場得分",
+    "width": "球隊勝率",
+    "color": "顏色"
+  },
+  "transition": 1000,
+  "width": {
+    "min": 20,
+    "max": 80
+  }
+}

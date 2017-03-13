@@ -1,0 +1,110 @@
+body {
+    font-size: 120%;
+}
+
+.strong { font-weight: 700; }
+.emphasis { font-style: italic; }
+.large { font-size: 120%; }
+
+.pure-g > div {
+    /* https://purecss.io/grids/ "Applying Padding and Borders to Grid Units" */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid #fff;
+    background: #ffe;
+}
+
+/* https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js */
+.rsvg-container {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
+    background: #ffe;
+    /* more declarations in html */
+}
+
+#rsvg-box svg {
+    display: inline-block;
+    position: absolute;
+    /* border: 3px solid #808; */
+    bottom-padding: 0px;
+}
+
+/* http://purecss.io/grids/ */
+.l-padding {
+    /* border: 3px solid #808; */
+    padding: 0.5em;
+}
+
+.s-padding {
+    /* border: 1px dashed #ccc; */
+    padding: 0.1em;
+}
+
+.active {
+    background: rgb(255, 255, 224);
+}
+
+/* http://purecss.io/buttons/ */
+.pure-primary,
+.pure-secondary,
+.pure-success,
+.pure-warning,
+.pure-error
+{
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    padding: 2px;
+}
+
+.pure-primary {
+    background: rgb(0, 120, 231);
+}
+
+.pure-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.pure-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.pure-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.pure-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+/* the following is mostly based on http://htmldog.com/techniques/dropdowns/ */
+
+#viz-pane {
+    position: relative;
+    /* so that it is in the same "stacking context" as #info-pane.
+    https://philipwalton.com/articles/what-no-one-told-you-about-z-index/ */
+    z-index: 1;
+}
+
+#info-pane { z-index: 2; }
+
+#data-field-names { padding: 2px; }
+
+ul.menu-tree { list-style: none; }
+
+#data-field-names ul {
+    width: 200px;
+}
+
+#data-field-names li {
+    border: 1px solid #ccc;
+}
+
+#xAxis text {
+    /* https://stackoverflow.com/questions/27367849/how-to-rotate-and-change-font-size-on-x-axis */
+    transform: translate(0px, 30px) rotate(60deg);
+}
+
