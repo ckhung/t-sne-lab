@@ -18,8 +18,19 @@
 
 <body>
   <div id="content" class="pure-g">
-    <div class="pure-u-1-1"><p>header</p></div>
-    <div class="pure-u-1-4">menu</div>
+    <div class="pure-u-1-1">
+      <p><a href="https://ckhung.github.io/t-sne-lab/">t-sne-lab</a>
+      is a frontend for the t-sne, a machine-learning algorithm
+      for visualizing high-dimensional numerical datasets in 2-D or 3-D.
+    </div>
+    <div class="pure-u-1-4">
+      <button type="button" id="restart" onclick="restart()" class="pure-button pure-warning pure-u-1-4" title="restart">R</button>
+      <div class="pure-u-1-8"></div>
+      <button type="button" id="pause-resume" onclick="pauseResume()" class="pure-button pure-primary pure-u-1-4" title="pause/resume">P</button>
+      <div class="pure-u-3-8"></div>
+      <div class="pure-u-1-1">Iter: <span id="show-iter"></span></div>
+      <div class="pure-u-1-1">Cost: <span id="show-cost"></span></div>
+    </div>
     <div class="pure-u-3-4">
 	<!--  https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js -->
         <div class="rsvg-container pure-u-1-1" id="rsvg-box"
@@ -32,6 +43,7 @@
 	</div>
     </div>
   </div><!-- #content .pure-g -->
+  <script type="text/javascript" src="md5.min.js"> </script>
   <script type="text/javascript" src="d3/d3.min.js"> </script>
   <script type="text/javascript" src="jqui/external/jquery/jquery.js"></script>
   <script type="text/javascript" src="jqui/jquery-ui.min.js"></script>

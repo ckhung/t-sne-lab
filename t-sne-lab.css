@@ -108,3 +108,12 @@ ul.menu-tree { list-style: none; }
     transform: translate(0px, 30px) rotate(60deg);
 }
 
+.item-icon {
+    opacity: 0.3;
+}
+
+.item-text {
+    text-anchor: middle;
+    font-size: 12px;
+}
+
