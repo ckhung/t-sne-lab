@@ -6,4 +6,4 @@ invented by Laurens van der Maaten.
 
 This repo is a frontend for Andrej Karpathy's
 [javascript implementation](https://github.com/karpathy/tsnejs)
-of t-SNE. See [demo page](t-sne-lab.html).
+of t-SNE. See [demo page](https://ckhung.github.io/t-sne-lab/t-sne-lab.html).
