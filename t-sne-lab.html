@@ -34,11 +34,9 @@
       <div class="pure-u-1-1">Cost: <span id="show-cost"></span></div>
 
       <div class="pure-u-1-1">
-        <form  id="param-form" class="pure-form pure-form-aligned">
-	  <label for="choose-label">Label:
-	    <select name="choose-label" id="choose-label"></select>
-          </label><br />
-	  <label for="choose-font-size">font:
+        <form  id="config-form" class="pure-form pure-form-aligned pure-g">
+	  <div class="pure-u-1-2">font size</div>
+	  <div class="pure-u-1-2 full-width">
 	    <select name="choose-font-size" id="choose-font-size">
 	      <option value="7px">7px</option>
 	      <option value="8px">8px</option>
@@ -48,8 +46,14 @@
 	      <option value="14px">14px</option>
 	      <option value="16px">16px</option>
 	    </select>
-          </label>
-	</form>
+          </div>
+	  <div class="pure-u-1-2">group by</div>
+	  <div class="pure-u-1-2 full-width">
+	    <select name="choose-label" id="choose-label"></select>
+          </div>
+	  <div class="pure-u-1-1">palette #</div>
+	    <table id="choose-palette" class="pure-u-1-1">
+	    </table>
       </div>
     </div>
     <div class="pure-u-3-4">
@@ -66,8 +70,8 @@
   </div><!-- #content .pure-g -->
   <script type="text/javascript" src="md5.min.js"> </script>
   <script type="text/javascript" src="d3/d3.min.js"> </script>
-  <script type="text/javascript" src="jqui/external/jquery/jquery.js"></script>
-  <script type="text/javascript" src="jqui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="jquery.js"></script>
+  <!-- script type="text/javascript" src="jqui/jquery-ui.min.js"></script -->
   <script type="text/javascript" src="tsne.js"> </script>
   <script type="text/javascript" src="t-sne-lab.js"> </script>
 </body>

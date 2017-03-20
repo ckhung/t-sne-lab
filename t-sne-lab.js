@@ -13,7 +13,7 @@ d3.json(G.configFN, function(data) {
   G.config = {
     csvFN: 'NBA-zh_TW.csv',
     batch: 100,
-    interval: 500,
+    interval: 300,
     transition: 300
   };
   $.extend(true, G.config, data);
@@ -59,6 +59,20 @@ function init(error, data) {
   }
   $('#choose-label').html(t);
 
+  var i, j;
+  t = '';
+  for (i=0; i<4; ++i) {
+    t += '<tr>\n';
+    for (j=0; j<8; ++j) {
+      var s = '<td><input id="pal-#" type="radio" name="palette"' +
+	'value="#" /><label for="pal-#" width="100%">#</label></td>\n';
+      t += s.replace(/#/g, (i*8+j).toString());
+    }
+    t += '</tr>\n';
+  }
+  $('#choose-palette').append(t);
+  $('#pal-0').attr('checked', 1);
+
   // https://github.com/d3/d3-zoom
   // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js (responsive svg)
   G.svg = d3.select('#rsvg-box svg');
@@ -91,6 +105,10 @@ function init(error, data) {
     .append('g');
   G.items.append('circle')
     .classed('item-icon', true)
+    // initially put everything at the center
+    // regardless of its value
+    .attr('cx', G.viewBox.width/2)
+    .attr('cy', G.viewBox.height/2)
     .attr('r', 10);
   G.items.append('text')
     .classed('item-text', true)
@@ -140,13 +158,16 @@ function update(n) {
   }
   var labelFN = $('#choose-label').val();
   var labelSize = $('#choose-font-size').val();
+  var palette = parseInt($('input[name=palette]:checked', '#choose-palette').val());
+  // https://stackoverflow.com/questions/596351/how-can-i-know-which-radio-button-is-selected-via-jquery
   G.canvas.selectAll('.item-icon')
     .transition()
     .duration(G.config.transition)
     .attr('cx', function(d) { return d.xpos; })
     .attr('cy', function(d) { return d.ypos; })
-    .style('fill', function(d) {
-      return '#' + md5(d[labelFN]).substring(0,3);
+    .style('fill', function(d, i) {
+      var r = md5(d[labelFN]);
+      return '#' + (r + r).substring(palette, palette+3);
     });
     // https://github.com/blueimp/JavaScript-MD5
   G.canvas.selectAll('.item-text')

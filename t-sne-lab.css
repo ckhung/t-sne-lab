@@ -6,6 +6,27 @@ body {
 .emphasis { font-style: italic; }
 .large { font-size: 120%; }
 
+.full-width * { width: 100%; }
+#choose-palette {
+    border-collapse: collapse;
+}
+#choose-palette td {
+    width: 2em;
+    border: 1px solid black;
+}
+#choose-palette input[type="radio"] {
+    display:none;
+}
+#choose-palette input[type="radio"]:checked + label {
+    background: #8f8;
+}
+#choose-palette label {
+    margin: 0;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
 .pure-g > div {
     /* https://purecss.io/grids/ "Applying Padding and Borders to Grid Units" */
     -webkit-box-sizing: border-box;
