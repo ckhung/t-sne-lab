@@ -10,10 +10,10 @@
   "width=device-width, initial-scale=1" />
 
   <title>t-sne-lab demo page</title>
-  <link type="text/css" rel="stylesheet" href="pure/pure-min.css">
-  <link type="text/css" rel="stylesheet" href="pure/grids-responsive-min.css">
-  <link type="text/css" rel="stylesheet" href="t-sne-lab.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" rel="stylesheet" href="pure/pure-min.css"/>
+  <link type="text/css" rel="stylesheet" href="pure/grids-responsive-min.css"/>
+  <link type="text/css" rel="stylesheet" href="t-sne-lab.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
@@ -23,13 +23,34 @@
       is a frontend for the t-sne, a machine-learning algorithm
       for visualizing high-dimensional numerical datasets in 2-D or 3-D.
     </div>
+
     <div class="pure-u-1-4">
       <button type="button" id="restart" onclick="restart()" class="pure-button pure-warning pure-u-1-4" title="restart">R</button>
+
       <div class="pure-u-1-8"></div>
       <button type="button" id="pause-resume" onclick="pauseResume()" class="pure-button pure-primary pure-u-1-4" title="pause/resume">P</button>
       <div class="pure-u-3-8"></div>
       <div class="pure-u-1-1">Iter: <span id="show-iter"></span></div>
       <div class="pure-u-1-1">Cost: <span id="show-cost"></span></div>
+
+      <div class="pure-u-1-1">
+        <form  id="param-form" class="pure-form pure-form-aligned">
+	  <label for="choose-label">Label:
+	    <select name="choose-label" id="choose-label"></select>
+          </label><br />
+	  <label for="choose-font-size">font:
+	    <select name="choose-font-size" id="choose-font-size">
+	      <option value="7px">7px</option>
+	      <option value="8px">8px</option>
+	      <option value="9px">9px</option>
+	      <option value="10px" selected="selected">10px</option>
+	      <option value="12px">12px</option>
+	      <option value="14px">14px</option>
+	      <option value="16px">16px</option>
+	    </select>
+          </label>
+	</form>
+      </div>
     </div>
     <div class="pure-u-3-4">
 	<!--  https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js -->

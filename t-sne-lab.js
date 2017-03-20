@@ -3,6 +3,7 @@
 
 var G = { // global variables
   configFN: 'config.json',
+  catf: {},	// names of categorical fields
   scale: {},
   setIntervalID: null
 };
@@ -11,8 +12,8 @@ d3.json(G.configFN, function(data) {
   console.log(data);
   G.config = {
     csvFN: 'NBA-zh_TW.csv',
-    batch: 20,
-    interval: 300,
+    batch: 100,
+    interval: 500,
     transition: 300
   };
   $.extend(true, G.config, data);
@@ -34,13 +35,13 @@ function init(error, data) {
       if (k.charAt(0) != '@') {
 	numbers.push(+d[k]);
       } else {
-	d[k.substring(1)] = d[k];
+	var fn = k.substring(1);
+	d[fn] = d[k];
+	G.catf[fn] = 1;
       }
       delete d[k];
     });
     d.numbers = numbers;
-    // https://github.com/blueimp/JavaScript-MD5
-    if (! ('color' in d)) { d.color = '#' + md5(d.label).substring(0,3); }
   });
   G.data = G.data.filter(function (d, i) {
     for (var j=0; j<d.numbers.length; ++j) {
@@ -51,6 +52,12 @@ function init(error, data) {
     }
     return true;
   });
+
+  var t = '';
+  for (var f in G.catf) {
+    t += '<option value="' + f + '">' + f + '</option>\n';
+  }
+  $('#choose-label').html(t);
 
   // https://github.com/d3/d3-zoom
   // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js (responsive svg)
@@ -84,11 +91,9 @@ function init(error, data) {
     .append('g');
   G.items.append('circle')
     .classed('item-icon', true)
-    .attr('r', 10)
-    .style('fill', function(d) { return d.color; });
+    .attr('r', 10);
   G.items.append('text')
     .classed('item-text', true)
-    .text(function(d) { return d.label; })
     .attr('dy', '0.7ex');
     // https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
     // dy can't be set using CSS.
@@ -133,17 +138,25 @@ function update(n) {
     G.data[i].xpos = G.scale.x(sx[i]);
     G.data[i].ypos = G.scale.y(sy[i]);
   }
+  var labelFN = $('#choose-label').val();
+  var labelSize = $('#choose-font-size').val();
   G.canvas.selectAll('.item-icon')
     .transition()
     .duration(G.config.transition)
     .attr('cx', function(d) { return d.xpos; })
-    .attr('cy', function(d) { return d.ypos; });
+    .attr('cy', function(d) { return d.ypos; })
+    .style('fill', function(d) {
+      return '#' + md5(d[labelFN]).substring(0,3);
+    });
+    // https://github.com/blueimp/JavaScript-MD5
   G.canvas.selectAll('.item-text')
     .transition()
     .duration(G.config.transition)
+    .text(function(d) { return d[labelFN]; })
     .attr('x', function(d) { return d.xpos; })
-    .attr('y', function(d) { return d.ypos; });
+    .attr('y', function(d) { return d.ypos; })
+    .style('font-size', function(d) { return labelSize; });
   $('#show-iter').text(G.iteration);
-  $('#show-cost').text(G.cost);
+  $('#show-cost').text(Math.round(G.cost*100)/100);
 }
 
