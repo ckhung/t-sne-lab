@@ -52,6 +52,7 @@ function init(error, data) {
     return true;
   });
   G.raw = G.data.map(function(d) { return d.numbers; });
+  $('#show-dataset').text(G.config.csvFN);
 
   var t = '';
   for (var f in G.catf) {
