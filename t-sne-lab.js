@@ -11,9 +11,11 @@ var G = { // global variables
 d3.json(G.configFN, function(data) {
   console.log(data);
   G.config = {
-    batch: 100,
-    interval: 300,
-    transition: 300
+    batch: 5,
+    interval: 30,
+    transition: 300,
+    epsilon: 10,
+    perplexity: 30,
   };
   $.extend(true, G.config, data);
   loadCSV(G.config.csvFN);
@@ -53,6 +55,8 @@ function init(error, data) {
   });
   G.raw = G.data.map(function(d) { return d.numbers; });
   $('#show-dataset').text(G.config.csvFN);
+  $('#perplexity').text(G.config.perplexity);
+  $('#batch-size').text(G.config.batch);
 
   var t = '';
   for (var f in G.catf) {
@@ -77,6 +81,13 @@ function init(error, data) {
       .style('font-size', function(d) { return labelSize; });
   });
   $('#choose-palette').change(changePalette);
+  $('#perplexity').change(function() {
+    G.config.perplexity = $('#perplexity').val();
+    restart();
+  });
+  $('#batch-size').change(function() {
+    G.config.batch = $('#batch-size').val();
+  });
 
   function changePalette() {
     var labelFN = $('#choose-label').val();

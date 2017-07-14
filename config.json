@@ -1,5 +1,5 @@
 {
-  "csvFN": "flags.csv",
+  "csvFN": "optdigits.csv",
   "tsne": {
     "epsilon": 10,
     "perplexity": 30

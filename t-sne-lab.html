@@ -10,8 +10,8 @@
   "width=device-width, initial-scale=1" />
 
   <title>t-sne-lab demo page</title>
-  <link type="text/css" rel="stylesheet" href="pure/pure-min.css"/>
-  <link type="text/css" rel="stylesheet" href="pure/grids-responsive-min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
   <link type="text/css" rel="stylesheet" href="t-sne-lab.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -20,8 +20,12 @@
   <div id="content" class="pure-g">
     <div class="pure-u-1-1">
       <p><a href="https://ckhung.github.io/t-sne-lab/">t-sne-lab</a>
-      is a frontend for t-SNE, a machine-learning algorithm
-      for visualizing high-dimensional numerical datasets in 2-D or 3-D.
+      is a laboratory for you to visually explore
+      a high-dimensional numerical dataset.
+      It reads a csv file and allows you to choose
+      which categorical field to be used for color painting,
+      which categorical field to be used for baloon tooltip text.
+      You can also try try different parameter values of the perplexity.
     </div>
 
     <div class="pure-u-1-4">
@@ -59,6 +63,14 @@
             </div>
 	    <div class="pure-u-1-1">palette #</div>
 	    <table id="choose-palette" class="pure-u-1-1"></table>
+	    <div class="pure-u-1-2">perplexity</div>
+	    <div class="pure-u-1-2 full-width">
+	      <input id="perplexity" type="number" min="0" step="1" />
+            </div>
+	    <div class="pure-u-1-2">batch</div>
+	    <div class="pure-u-1-2 full-width">
+	      <input id="batch-size" type="number" min="0" step="1" />
+            </div>
         </div>
       </div>
     </div>
