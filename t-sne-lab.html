@@ -10,8 +10,8 @@
   "width=device-width, initial-scale=1" />
 
   <title>t-sne-lab demo page</title>
-  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+  <link rel="stylesheet" href="pure-min.css">
+  <link rel="stylesheet" href="grids-responsive-min.css">
   <link type="text/css" rel="stylesheet" href="t-sne-lab.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -20,12 +20,13 @@
   <div id="content" class="pure-g">
     <div class="pure-u-1-1">
       <p><a href="https://ckhung.github.io/t-sne-lab/">t-sne-lab</a>
-      is a laboratory for you to visually explore
-      a high-dimensional numerical dataset.
+      is a laboratory for you to interactively explore
+      a high-dimensional numerical dataset using the t-sne visualization.
       It reads a csv file and allows you to choose
       which categorical field to be used for color painting,
-      which categorical field to be used for baloon tooltip text.
-      You can also try try different parameter values of the perplexity.
+      and which categorical field to be used for labeling the data points.
+      You can also try different values of the perplexity
+      and epsilon parameters.
     </div>
 
     <div class="pure-u-1-4">
@@ -36,8 +37,10 @@
 	<div class="pure-u-3-8"></div>
 	<div class="pure-u-1-2">Dataset:</div>
 	<div class="pure-u-1-2" id="show-dataset" style="font-weight: bold"></div>
-	<div class="pure-u-1-1">Iter: <span id="show-iter"></span></div>
-	<div class="pure-u-1-1">Cost: <span id="show-cost"></span></div>
+	<div class="pure-u-1-2">Iter:</div>
+        <div class="pure-u-1-2" id="show-iter"></div>
+	<div class="pure-u-1-2">Cost:</div>
+        <div class="pure-u-1-2" id="show-cost"></div>
 
         <div class="pure-u-1-1">
           <form  id="config-form" class="pure-form pure-form-aligned pure-g">
@@ -53,23 +56,27 @@
 	        <option value="16px">16px</option>
 	      </select>
             </div>
-	    <div class="pure-u-1-2">group by</div>
+	    <div class="pure-u-1-2">color field</div>
 	    <div class="pure-u-1-2 full-width">
-	      <select name="choose-label" id="choose-label"></select>
+	      <select name="color-field" id="color-field"></select>
             </div>
-	    <div class="pure-u-1-2">tooltip (balloon)</div>
+	    <div class="pure-u-1-2" id="show-tf">text field ✓</div>
 	    <div class="pure-u-1-2 full-width">
-	      <select name="choose-title" id="choose-title"></select>
+	      <select name="choose-title" id="text-field"></select>
             </div>
 	    <div class="pure-u-1-1">palette #</div>
 	    <table id="choose-palette" class="pure-u-1-1"></table>
-	    <div class="pure-u-1-2">perplexity</div>
-	    <div class="pure-u-1-2 full-width">
-	      <input id="perplexity" type="number" min="0" step="1" />
-            </div>
 	    <div class="pure-u-1-2">batch</div>
 	    <div class="pure-u-1-2 full-width">
-	      <input id="batch-size" type="number" min="0" step="1" />
+	      <input id="batch-size" type="number" min="1" step="1" />
+            </div>
+	    <div class="pure-u-1-2">perplexity</div>
+	    <div class="pure-u-1-2 full-width">
+	      <input id="perplexity" type="number" min="2" />
+            </div>
+	    <div class="pure-u-1-2">epsilon</div>
+	    <div class="pure-u-1-2 full-width">
+	      <input id="epsilon" type="number" min="0" />
             </div>
         </div>
       </div>

@@ -11,13 +11,16 @@ var G = { // global variables
 d3.json(G.configFN, function(data) {
   console.log(data);
   G.config = {
-    batch: 5,
+    batch: 10,
     interval: 30,
     transition: 300,
-    epsilon: 10,
-    perplexity: 30,
+    tsne: {
+      epsilon: 10,
+      perplexity: 30,
+    }
   };
   $.extend(true, G.config, data);
+  console.log(G.config);
   loadCSV(G.config.csvFN);
 });
 
@@ -55,50 +58,28 @@ function init(error, data) {
   });
   G.raw = G.data.map(function(d) { return d.numbers; });
   $('#show-dataset').text(G.config.csvFN);
-  $('#perplexity').text(G.config.perplexity);
-  $('#batch-size').text(G.config.batch);
+  $('#batch-size').val(G.config.batch);
+  $('#perplexity').val(G.config.tsne.perplexity);
+  $('#epsilon').val(G.config.tsne.epsilon);
 
   var t = '';
   for (var f in G.catf) {
     t += '<option value="' + f + '">' + f + '</option>\n';
   }
-  $('#choose-label').html(t)
-    .change(function() {
-      var labelFN = $('#choose-label').val();
-      G.canvas.selectAll('.item-text')
-	.text(function(d) { return d[labelFN]; });
-      changePalette();
-    });
-  $('#choose-title').html(t)
-    .change(function() {
-      var titleFN = $('#choose-title').val();
-      G.canvas.selectAll('.item-tooltip')
-	.text(function(d) { return d[titleFN]; });
-    });
-  $('#choose-font-size').change(function() {
-    var labelSize = $('#choose-font-size').val();
-    G.canvas.selectAll('.item-text')
-      .style('font-size', function(d) { return labelSize; });
-  });
+  $('#color-field').html(t).change(changePalette);
+  $('#text-field').html(t).change(changeText);
+  $('#choose-font-size').change(changeFontSize);
   $('#choose-palette').change(changePalette);
-  $('#perplexity').change(function() {
-    G.config.perplexity = $('#perplexity').val();
-    restart();
-  });
   $('#batch-size').change(function() {
     G.config.batch = $('#batch-size').val();
   });
-
-  function changePalette() {
-    var labelFN = $('#choose-label').val();
-    var palette = parseInt($('input[name=palette]:checked').val());
-    G.canvas.selectAll('.item-icon')
-      .style('fill', function(d) {
-        var r = md5(d[labelFN]);
-        // https://github.com/blueimp/JavaScript-MD5
-        return '#' + (r + r).substring(palette, palette+3);
-      });
-  }
+  $('#perplexity').change(function() {
+    G.config.tsne.perplexity = $('#perplexity').val();
+    restart();
+  });
+  $('#epsilon').change(function() {
+    G.config.tsne.epsilon = $('#epsilon').val();
+  });
 
   var i, j;
   t = '';
@@ -113,6 +94,7 @@ function init(error, data) {
   }
   $('#choose-palette').append(t);
   $('#pal-0').attr('checked', 1);
+  $('#show-tf').click(textOnOff);
 
   // https://github.com/d3/d3-zoom
   // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js (responsive svg)
@@ -150,15 +132,17 @@ function init(error, data) {
     // regardless of its value
     .attr('cx', G.viewBox.width/2)
     .attr('cy', G.viewBox.height/2)
-    .attr('r', 10)
-    .style('fill', '#088');
+    .attr('r', 10);
   G.items.append('text')
     .classed('item-text', true)
+    .attr('x', G.viewBox.width/2)
+    .attr('y', G.viewBox.height/2)
     .attr('dy', '0.7ex');
     // https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
     // dy can't be set using CSS.
-  G.items.append('svg:title')
-    .classed('item-tooltip', true);
+  changeText();
+  changeFontSize();
+  changePalette();
 }
 
 function restart() {
@@ -212,5 +196,41 @@ function update(n) {
     .attr('y', function(d) { return d.ypos; });
   $('#show-iter').text(G.iteration);
   $('#show-cost').text(Math.round(G.cost*100)/100);
+}
+
+function changePalette() {
+  var colorFN = $('#color-field').val();
+  var palette = parseInt($('input[name=palette]:checked').val());
+  G.canvas.selectAll('.item-icon')
+    .style('fill', function(d) {
+      var r = md5(d[colorFN]);
+      // https://github.com/blueimp/JavaScript-MD5
+      return '#' + (r + r).substring(palette, palette+3);
+    });
+}
+
+function textOnOff() {
+  var showTF = $('#show-tf').text();
+  if (showTF.match(/✓ *$/)) {
+    $('#text-field').prop('disabled', true );
+    $('#show-tf').text('text field');
+  } else {
+    $('#text-field').prop('disabled', false );
+    $('#show-tf').text('text field ✓');
+  }
+  changeText();
+}
+
+function changeText() {
+  var textFN = $('#text-field').val();
+  var showTF = ! $('#text-field').prop('disabled');
+  G.canvas.selectAll('.item-text')
+    .text(function(d) { return showTF ? d[textFN] : ''; });
+}
+
+function changeFontSize() {
+  var labelSize = $('#choose-font-size').val();
+  G.canvas.selectAll('.item-text')
+    .style('font-size', function(d) { return labelSize; });
 }
 
