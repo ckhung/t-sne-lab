@@ -1,5 +1,5 @@
 {
-  "csvFN": "digits.csv",
+  "csvFN": "optdigits.csv",
   "batch": 5,
   "tsne": {
     "perplexity": 20

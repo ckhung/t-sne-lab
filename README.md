@@ -7,9 +7,10 @@ which categorical field to be used for color painting,
 and which categorical field to be used for labeling the data points.
 You can also try different values of the perplexity
 and epsilon parameters.
-See [demo page](https://ckhung.github.io/t-sne-lab/t-sne-lab.html).
+See [digits demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=digits.json) and [letters demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=letters.json).
 
-Edit config.json to specify your csv file and other customization values.
+Specify a json config file (e.g. ?config=digits.json) at the end of the URL.
+Edit the config file to specify your csv file and other customization values.
 The csv file can be either a local file or an URL.
 If the csv file is local, then please see
 [this illustration](https://github.com/ckhung/javascriptCanReadLocalFiles)

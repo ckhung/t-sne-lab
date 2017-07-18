@@ -1,4 +1,4 @@
-/* global window, console, d3, alert, $, tsnejs, md5 */
+/* global window, console, location, d3, alert, $, tsnejs, md5 */
 // https://stackoverflow.com/questions/11957977/how-to-fix-foo-is-not-defined-error-reported-by-jslint
 
 var G = { // global variables
@@ -8,8 +8,14 @@ var G = { // global variables
   setIntervalID: null
 };
 
-d3.json(G.configFN, function(data) {
-  console.log(data);
+// https://stackoverflow.com/questions/2618959/not-well-formed-warning-when-loading-client-side-json-in-firefox-via-jquery-aj
+$.ajaxSetup({ beforeSend: function(xhr){
+  xhr.overrideMimeType("application/json");
+}});
+
+var configFN = $.url(location.href).param('config');
+if (! configFN) { configFN = 'config.json'; }
+$.getJSON(configFN).done(function(data) {
   G.config = {
     batch: 10,
     interval: 30,
@@ -21,17 +27,22 @@ d3.json(G.configFN, function(data) {
   };
   $.extend(true, G.config, data);
   console.log(G.config);
-  loadCSV(G.config.csvFN);
+  d3.queue()
+    .defer(d3.csv, G.config.csvFN)
+    .awaitAll(init);
+}).fail(function( jqxhr, textStatus, error ) {
+  var msg = 'failed reading config file "' + configFN + '"';
+  alert(msg);
+  throw new Error(msg);
 });
 
-function loadCSV(fn) {
-  d3.queue()
-    .defer(d3.csv, fn)
-    .awaitAll(init);
-}
-
 function init(error, data) {
-  if (error) { return console.warn(error); }
+  if (error) {
+    var msg = 'failed reading csv file "' + G.config.csvFN + '"';
+    alert(msg);
+    throw new Error(msg);
+    return;
+  }
   G.data = data[0];
   G.data.forEach(function(d){
     var numbers = [];
@@ -57,6 +68,7 @@ function init(error, data) {
     return true;
   });
   G.raw = G.data.map(function(d) { return d.numbers; });
+  $('#pause-resume').prop('disabled', true);
   $('#show-dataset').text(G.config.csvFN);
   $('#batch-size').val(G.config.batch);
   $('#perplexity').val(G.config.tsne.perplexity);
@@ -153,6 +165,7 @@ function restart() {
   G.tsne = new tsnejs.tSNE(G.config.tsne);
   G.tsne.initDataRaw(G.raw);
   G.iteration = 0;
+  $('#pause-resume').prop('disabled', false);
   pauseResume();
 }
 
