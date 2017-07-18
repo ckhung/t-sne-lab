@@ -1,5 +1,5 @@
 {
-  "csvFN": "letter-recognition.csv",
+  "csvFN": "letters.csv",
   "batch": 5,
   "tsne": {
     "epsilon": 10,
