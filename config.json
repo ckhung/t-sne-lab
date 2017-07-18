@@ -2,7 +2,6 @@
   "csvFN": "optdigits.csv",
   "batch": 5,
   "tsne": {
-    "epsilon": 12,
-    "perplexity": 25
+    "perplexity": 20
   }
 }
