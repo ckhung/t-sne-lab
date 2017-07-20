@@ -1,5 +1,9 @@
 ## t-sne-lab: an interactive frontend for t-SNE
 
+![applying t-sne-lab to the handwritten digits dataset](t-sne-digits.png)
+
+中文介紹： [資料科學/機器學習的好用入門工具 t-SNE 幫你看見高維度數值資料](https://newtoypia.blogspot.tw/2017/07/t-sne.html)
+
 t-sne-lab is a laboratory for you to interactively explore
 a high-dimensional numerical dataset using the t-sne visualization.
 It reads a csv file and allows you to choose
