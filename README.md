@@ -20,8 +20,10 @@ If the csv file is local, then please see
 [this illustration](https://github.com/ckhung/javascriptCanReadLocalFiles)
 for how to use t-sne-lab in Chrome. Firefox is fine.
 The first row of the csv file must contain the column names.
-A column whose name begins with '@' can be used as the coloring
-and/or the text labeling field.
+<del>A column whose name begins with '@'</del>
+Fields appearing in the "labelF" array in the config file
+can be used as the coloring and/or the text labeling field.
+Fields appearing in the "ignoreF" array are ignored.
 
 t-sne-lab is a front-end of Andrej Karpathy's
 [javascript implementation](https://github.com/karpathy/tsnejs)

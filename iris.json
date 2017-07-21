@@ -1,0 +1,9 @@
+{
+  "csvFN": "iris.csv",
+  "labelF": ["class"],
+  "ignoreF": [],
+  "batch": 100,
+  "tsne": {
+    "perplexity": 20
+  }
+}

@@ -3,14 +3,13 @@
 
 var G = { // global variables
   configFN: 'config.json',
-  catf: {},	// names of categorical fields
   scale: {},
   setIntervalID: null
 };
 
 // https://stackoverflow.com/questions/2618959/not-well-formed-warning-when-loading-client-side-json-in-firefox-via-jquery-aj
 $.ajaxSetup({ beforeSend: function(xhr){
-  xhr.overrideMimeType("application/json");
+  xhr.overrideMimeType('application/json');
 }});
 
 var configFN = $.url(location.href).param('config');
@@ -20,6 +19,9 @@ $.getJSON(configFN).done(function(data) {
     batch: 10,
     interval: 30,
     transition: 300,
+    labelF: [],
+    ignoreF: [],
+    numberF: [],
     tsne: {
       epsilon: 10,
       perplexity: 30,
@@ -41,33 +43,38 @@ function init(error, data) {
     var msg = 'failed reading csv file "' + G.config.csvFN + '"';
     alert(msg);
     throw new Error(msg);
-    return;
   }
   G.data = data[0];
-  G.data.forEach(function(d){
-    var numbers = [];
-    Object.keys(d).sort().forEach(function(k){
-      if (k.charAt(0) != '@') {
-	numbers.push(+d[k]);
-      } else {
-	var fn = k.substring(1);
-	d[fn] = d[k];
-	G.catf[fn] = 1;
-      }
-      delete d[k];
-    });
-    d.numbers = numbers;
+  G.data.keys = d3.keys(G.data[0]);
+  G.data.keys.forEach(function(k){
+//    if (k.charAt(0) == '@')
+//      G.config.labelF.push(k);
+    if (G.config.labelF.indexOf(k) < 0 && G.config.ignoreF.indexOf(k) < 0) {
+      G.config.numberF.push(k);
+    }
   });
+  G.config.numberF = G.config.numberF.sort();
+  var lf0 = G.config.labelF[0];
   G.data = G.data.filter(function (d, i) {
-    for (var j=0; j<d.numbers.length; ++j) {
-      if (isNaN(d.numbers[j])) {
-	console.log('ignoring row ' + i + ' [labeled:' + d.label + '] because feature ' + j + ' is NaN');
+    rn = (i+1).toString();
+    for (var i = 0; i < G.config.numberF.length; ++i) {
+      var f = G.config.numberF[i];
+      if (isNaN(d[f])) {
+        if (d[lf0] == null) {
+          console.log('ignoring row ' + rn + ' as an empty line');
+        } else {
+	  console.log('ignoring row ' + rn + ' [ data[' +
+            lf0 + ']==' + d[lf0] + ' ] because data[' +
+            d[f] + '] is NaN');
+        }
 	return false;
       }
     }
     return true;
   });
-  G.raw = G.data.map(function(d) { return d.numbers; });
+  G.raw = G.data.map(function(d) {
+    return G.config.numberF.map(function(f) { return parseFloat(d[f]); });
+  });
   $('#pause-resume').prop('disabled', true);
   $('#show-dataset').text(G.config.csvFN);
   $('#batch-size').val(G.config.batch);
@@ -75,11 +82,11 @@ function init(error, data) {
   $('#epsilon').val(G.config.tsne.epsilon);
 
   var t = '';
-  for (var f in G.catf) {
+  G.config.labelF.forEach(function (f) {
     t += '<option value="' + f + '">' + f + '</option>\n';
-  }
+  });
   $('#color-field').html(t).change(changePalette);
-  $('#text-field').html(t).change(changeText);
+  $('#label-field').html(t).change(changeText);
   $('#choose-font-size').change(changeFontSize);
   $('#choose-palette').change(changePalette);
   $('#batch-size').change(function() {
@@ -106,7 +113,7 @@ function init(error, data) {
   }
   $('#choose-palette').append(t);
   $('#pal-0').attr('checked', 1);
-  $('#show-tf').click(textOnOff);
+  $('#show-lf').click(textOnOff);
 
   // https://github.com/d3/d3-zoom
   // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js (responsive svg)
@@ -146,7 +153,7 @@ function init(error, data) {
     .attr('cy', G.viewBox.height/2)
     .attr('r', 10);
   G.items.append('text')
-    .classed('item-text', true)
+    .classed('item-label', true)
     .attr('x', G.viewBox.width/2)
     .attr('y', G.viewBox.height/2)
     .attr('dy', '0.7ex');
@@ -202,7 +209,7 @@ function update(n) {
     .duration(G.config.transition)
     .attr('cx', function(d) { return d.xpos; })
     .attr('cy', function(d) { return d.ypos; });
-  G.canvas.selectAll('.item-text')
+  G.canvas.selectAll('.item-label')
     .transition()
     .duration(G.config.transition)
     .attr('x', function(d) { return d.xpos; })
@@ -223,27 +230,27 @@ function changePalette() {
 }
 
 function textOnOff() {
-  var showTF = $('#show-tf').text();
+  var showTF = $('#show-lf').text();
   if (showTF.match(/✓ *$/)) {
-    $('#text-field').prop('disabled', true );
-    $('#show-tf').text('text field');
+    $('#label-field').prop('disabled', true );
+    $('#show-lf').text('label field');
   } else {
-    $('#text-field').prop('disabled', false );
-    $('#show-tf').text('text field ✓');
+    $('#label-field').prop('disabled', false );
+    $('#show-lf').text('label field ✓');
   }
   changeText();
 }
 
 function changeText() {
-  var textFN = $('#text-field').val();
-  var showTF = ! $('#text-field').prop('disabled');
-  G.canvas.selectAll('.item-text')
+  var textFN = $('#label-field').val();
+  var showTF = ! $('#label-field').prop('disabled');
+  G.canvas.selectAll('.item-label')
     .text(function(d) { return showTF ? d[textFN] : ''; });
 }
 
 function changeFontSize() {
   var labelSize = $('#choose-font-size').val();
-  G.canvas.selectAll('.item-text')
+  G.canvas.selectAll('.item-label')
     .style('font-size', function(d) { return labelSize; });
 }
 
