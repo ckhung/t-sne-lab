@@ -15,10 +15,16 @@ See [digits demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=digit
 
 Specify a json config file (e.g. ?config=digits.json) at the end of the URL.
 Edit the config file to specify your csv file and other customization values.
-The csv file can be either a local file or an URL.
-If the csv file is local, then please see
-[this illustration](https://github.com/ckhung/javascriptCanReadLocalFiles)
-for how to use t-sne-lab in Chrome. Firefox is fine.
+The csv file can be either a local file or a remote URL.
+Note however that when opening the html page as a local file
+(```file:///...```) in a chrome or chromium user,
+one has to give the ```--allow-file-access-from-files```
+option on the command line when starting the browser,
+unless the configuration file and the
+csv data file are both remote URL's.
+See [this illustration](https://github.com/ckhung/javascriptCanReadLocalFiles)
+for more details. Firefox is fine.
+
 The first row of the csv file must contain the column names.
 <del>A column whose name begins with '@'</del>
 Fields appearing in the "labelF" array in the config file
