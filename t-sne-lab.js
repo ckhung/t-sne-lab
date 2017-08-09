@@ -56,11 +56,11 @@ function init(error, data) {
   G.config.numberF = G.config.numberF.sort();
   var lf0 = G.config.labelF[0];
   G.data = G.data.filter(function (d, i) {
-    rn = (i+1).toString();
-    for (var i = 0; i < G.config.numberF.length; ++i) {
-      var f = G.config.numberF[i];
+    var rn = (i+1).toString();
+    for (var j = 0; j < G.config.numberF.length; ++j) {
+      var f = G.config.numberF[j];
       if (isNaN(d[f])) {
-        if (d[lf0] == null) {
+        if (d[lf0] === null) {
           console.log('ignoring row ' + rn + ' as an empty line');
         } else {
 	  console.log('ignoring row ' + rn + ' [ data[' +
@@ -102,17 +102,29 @@ function init(error, data) {
 
   var i, j;
   t = '';
-  for (i=0; i<4; ++i) {
+  for (i=0; i<5; ++i) {
     t += '<tr>\n';
     for (j=0; j<8; ++j) {
-      var s = '<td><input id="pal-#" type="radio" name="palette"' +
-	'value="#" /><label for="pal-#" width="100%">#</label></td>\n';
-      t += s.replace(/#/g, (i*8+j).toString());
+      var s = '<td><input id="pal-@" type="radio" name="palette"' +
+	'value="@" /><label for="pal-@" width="100%">@</label></td>\n';
+      t += s.replace(/@/g, (100+i*8+j).toString().substr(1));
     }
     t += '</tr>\n';
   }
   $('#choose-palette').append(t);
-  $('#pal-0').attr('checked', 1);
+  var colors, cell;
+  colors = [
+    '#555555', '#ff5555', '#55ff55', '#ffff55',
+    '#5555ff', '#ff55ff', '#55ffff'
+  ];
+  for (j=0; j<7; ++j) {
+    cell = $('#pal-'+(32+j).toString()+' + label');
+    cell.css('background-color', colors[j]);
+  }
+  cell = $('#pal-39 + label');
+  cell.text('');
+  cell.append('<img src="icon-image.png" width=80% />');
+  $('#pal-00').attr('checked', 1);
   $('#show-lf').click(textOnOff);
 
   // https://github.com/d3/d3-zoom
@@ -221,12 +233,20 @@ function update(n) {
 function changePalette() {
   var colorFN = $('#color-field').val();
   var palette = parseInt($('input[name=palette]:checked').val());
-  G.canvas.selectAll('.item-icon')
-    .style('fill', function(d) {
-      var r = md5(d[colorFN]);
-      // https://github.com/blueimp/JavaScript-MD5
-      return '#' + (r + r).substring(palette, palette+3);
-    });
+  if (palette < 39) {
+    var fixed;
+    if (palette >= 32) {
+      fixed = $('#pal-'+palette.toString()+' + label').css('background-color');
+    }
+    G.canvas.selectAll('.item-icon')
+      .style('fill', palette>=32 ? fixed : function(d) {
+        var r = md5(d[colorFN]);
+        // https://github.com/blueimp/JavaScript-MD5
+        return '#' + (r + r).substring(palette, palette+3);
+      });
+  } else {
+    alert('not implemented yet');
+  }
 }
 
 function textOnOff() {
