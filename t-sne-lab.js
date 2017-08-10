@@ -22,6 +22,11 @@ $.getJSON(configFN).done(function(data) {
     labelF: [],
     ignoreF: [],
     numberF: [],
+    picF: {
+      name: null,
+      prefix: '',
+      width: 50,
+    },
     tsne: {
       epsilon: 10,
       perplexity: 30,
@@ -118,12 +123,11 @@ function init(error, data) {
     '#5555ff', '#ff55ff', '#55ffff'
   ];
   for (j=0; j<7; ++j) {
-    cell = $('#pal-'+(32+j).toString()+' + label');
-    cell.css('background-color', colors[j]);
+    monoColor(32+j, colors[j]);
   }
   cell = $('#pal-39 + label');
   cell.text('');
-  cell.append('<img src="icon-image.png" width=80% />');
+  cell.append('<img src="icon-image.png" width=70% />');
   $('#pal-00').attr('checked', 1);
   $('#show-lf').click(textOnOff);
 
@@ -156,21 +160,30 @@ function init(error, data) {
     .selectAll('.item')
     .data(G.data)
     .enter()
-    .append('g');
-  G.items.append('circle')
-    .classed('item-icon', true)
+    .append('g')
+    .classed('item', true)
     // initially put everything at the center
     // regardless of its value
-    .attr('cx', G.viewBox.width/2)
-    .attr('cy', G.viewBox.height/2)
+    .attr('transform',
+      'translate('+G.viewBox.width/2+','+G.viewBox.height/2+')');
+  G.items.append('circle')
+    .attr('cx', 0)
+    .attr('cy', 0)
     .attr('r', 10);
   G.items.append('text')
-    .classed('item-label', true)
-    .attr('x', G.viewBox.width/2)
-    .attr('y', G.viewBox.height/2)
+    .attr('x', 0)
+    .attr('y', 0)
     .attr('dy', '0.7ex');
     // https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
     // dy can't be set using CSS.
+/*
+  if (G.config.picF.name) {
+    G.items.append('svg:image')
+      .classed('item-picture', true)
+      .attr('x', G.viewBox.width/2)
+      .attr('y', G.viewBox.height/2)
+  }
+*/
   changeText();
   changeFontSize();
   changePalette();
@@ -216,16 +229,12 @@ function update(n) {
     G.data[i].ypos = G.scale.y(sy[i]);
   }
   // https://stackoverflow.com/questions/596351/how-can-i-know-which-radio-button-is-selected-via-jquery
-  G.canvas.selectAll('.item-icon')
+  G.canvas.selectAll('.item')
     .transition()
     .duration(G.config.transition)
-    .attr('cx', function(d) { return d.xpos; })
-    .attr('cy', function(d) { return d.ypos; });
-  G.canvas.selectAll('.item-label')
-    .transition()
-    .duration(G.config.transition)
-    .attr('x', function(d) { return d.xpos; })
-    .attr('y', function(d) { return d.ypos; });
+    .attr('transform', function(d) {
+      return 'translate(' + d.xpos + ',' + d.ypos + ')';
+    });
   $('#show-iter').text(G.iteration);
   $('#show-cost').text(Math.round(G.cost*100)/100);
 }
@@ -235,10 +244,8 @@ function changePalette() {
   var palette = parseInt($('input[name=palette]:checked').val());
   if (palette < 39) {
     var fixed;
-    if (palette >= 32) {
-      fixed = $('#pal-'+palette.toString()+' + label').css('background-color');
-    }
-    G.canvas.selectAll('.item-icon')
+    if (palette >= 32) { fixed = monoColor(palette); }
+    G.canvas.selectAll('.item circle')
       .style('fill', palette>=32 ? fixed : function(d) {
         var r = md5(d[colorFN]);
         // https://github.com/blueimp/JavaScript-MD5
@@ -264,13 +271,21 @@ function textOnOff() {
 function changeText() {
   var textFN = $('#label-field').val();
   var showTF = ! $('#label-field').prop('disabled');
-  G.canvas.selectAll('.item-label')
+  G.canvas.selectAll('.item text')
     .text(function(d) { return showTF ? d[textFN] : ''; });
 }
 
 function changeFontSize() {
   var labelSize = $('#choose-font-size').val();
-  G.canvas.selectAll('.item-label')
+  G.canvas.selectAll('.item text')
     .style('font-size', function(d) { return labelSize; });
 }
 
+function monoColor(id, co) {
+  var cell = $('#pal-'+(id).toString()).parent();
+  if (co) {
+    cell.css('background-color', co);
+  } else {
+    return cell.css('background-color');
+  }
+}
