@@ -22,10 +22,12 @@ $.getJSON(configFN).done(function(data) {
     labelF: [],
     ignoreF: [],
     numberF: [],
-    picF: {
-      name: null,
+    pic: {
+      colName: null,
       prefix: '',
-      width: 50,
+      suffix: '',
+      width: '',
+      height: '',
     },
     tsne: {
       epsilon: 10,
@@ -176,14 +178,17 @@ function init(error, data) {
     .attr('dy', '0.7ex');
     // https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
     // dy can't be set using CSS.
-/*
-  if (G.config.picF.name) {
+  if (G.config.pic.colName) {
+    var pic = G.config.pic;
     G.items.append('svg:image')
-      .classed('item-picture', true)
-      .attr('x', G.viewBox.width/2)
-      .attr('y', G.viewBox.height/2)
+      .attr('x', -pic.width/2)
+      .attr('y', -pic.height/2)
+      .attr('width', pic.width)
+      .attr('height', pic.height)
+      .attr("xlink:href", function(d) {
+	return pic.prefix + d[pic.colName] + pic.suffix;
+    });
   }
-*/
   changeText();
   changeFontSize();
   changePalette();

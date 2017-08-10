@@ -136,11 +136,6 @@ ul.menu-tree { list-style: none; }
     border: 1px solid #ccc;
 }
 
-#xAxis text {
-    /* https://stackoverflow.com/questions/27367849/how-to-rotate-and-change-font-size-on-x-axis */
-    transform: translate(0px, 30px) rotate(60deg);
-}
-
 .item circle {
     opacity: 0.3;
 }
