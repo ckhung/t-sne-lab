@@ -1,0 +1,16 @@
+{
+  "csvFN": "lfw-encoding.csv",
+  "labelF": ["name"],
+  "ignoreF": ["freq"],
+  "pic": {
+    "colName": "name",
+    "prefix": "lfw/",
+    "suffix": ".jpg",
+    "width": "20",
+    "height": "20"
+  },
+  "batch": 5,
+  "tsne": {
+    "perplexity": 20
+  }
+}

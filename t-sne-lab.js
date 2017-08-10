@@ -84,6 +84,7 @@ function init(error, data) {
   });
   $('#pause-resume').prop('disabled', true);
   $('#show-dataset').text(G.config.csvFN);
+  $('#choose-font-size').val(12);
   $('#batch-size').val(G.config.batch);
   $('#perplexity').val(G.config.tsne.perplexity);
   $('#epsilon').val(G.config.tsne.epsilon);
@@ -127,9 +128,6 @@ function init(error, data) {
   for (j=0; j<7; ++j) {
     monoColor(32+j, colors[j]);
   }
-  cell = $('#pal-39 + label');
-  cell.text('');
-  cell.append('<img src="icon-image.png" width=70% />');
   $('#pal-00').attr('checked', 1);
   $('#show-lf').click(textOnOff);
 
@@ -178,16 +176,24 @@ function init(error, data) {
     .attr('dy', '0.7ex');
     // https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
     // dy can't be set using CSS.
+  cell = $('#pal-39 + label');
   if (G.config.pic.colName) {
+    cell.text('');
+    cell.append('<img src="icon-image.png" width=70% />');
     var pic = G.config.pic;
     G.items.append('svg:image')
+      .classed('item-pic', true)
       .attr('x', -pic.width/2)
       .attr('y', -pic.height/2)
       .attr('width', pic.width)
       .attr('height', pic.height)
-      .attr("xlink:href", function(d) {
+      .attr('xlink:href', function(d) {
 	return pic.prefix + d[pic.colName] + pic.suffix;
     });
+    $('#pal-39').attr('checked', 1);
+  } else {
+    cell.text('X');
+    $('#pal-39').attr('disabled',true);
   }
   changeText();
   changeFontSize();
@@ -256,8 +262,14 @@ function changePalette() {
         // https://github.com/blueimp/JavaScript-MD5
         return '#' + (r + r).substring(palette, palette+3);
       });
+    if (G.config.pic.colName) {
+      G.canvas.selectAll('.item-pic').style('visibility', 'hidden');
+      G.canvas.selectAll('.item text').attr('y', 0);
+    }
   } else {
-    alert('not implemented yet');
+    G.canvas.selectAll('.item-pic').style('visibility', 'visible');
+    var fs = parseFloat($('#choose-font-size').val());
+    G.canvas.selectAll('.item text').attr('y', G.config.pic.height*0.5+fs*0.4);
   }
 }
 
@@ -281,7 +293,7 @@ function changeText() {
 }
 
 function changeFontSize() {
-  var labelSize = $('#choose-font-size').val();
+  var labelSize = $('#choose-font-size').val() + 'px';
   G.canvas.selectAll('.item text')
     .style('font-size', function(d) { return labelSize; });
 }
