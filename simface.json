@@ -10,6 +10,6 @@
   },
   "batch": 20,
   "tsne": {
-    "perplexity": 3
+    "perplexity": 4.5
   }
 }
