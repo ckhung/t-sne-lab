@@ -207,6 +207,8 @@ function restart() {
   }
   G.tsne = new tsnejs.tSNE(G.config.tsne);
   G.tsne.initDataRaw(G.raw);
+  G.items = G.canvas.selectAll('.item').attr('transform',
+    'translate('+G.viewBox.width/2+','+G.viewBox.height/2+')');
   G.iteration = 0;
   $('#pause-resume').prop('disabled', false);
   pauseResume();
