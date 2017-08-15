@@ -1,6 +1,6 @@
 ## t-sne-lab: an interactive frontend for t-SNE
 
-![applying t-sne-lab to the handwritten digits dataset](t-sne-digits.png)
+![applying t-sne-lab to the handwritten digits dataset](digits.png)
 
 中文介紹： [資料科學/機器學習的好用入門工具 t-SNE 幫你看見高維度數值資料](https://newtoypia.blogspot.tw/2017/07/t-sne.html)
 
