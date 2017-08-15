@@ -1,6 +1,6 @@
 {
   "csvFN": "iris.csv",
-  "labelF": ["class"],
+  "labelCol": ["class"],
   "ignoreF": [],
   "batch": 100,
   "tsne": {

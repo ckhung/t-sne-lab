@@ -11,7 +11,7 @@ which categorical field to be used for color painting,
 and which categorical field to be used for labeling the data points.
 You can also try different values of the perplexity
 and epsilon parameters.
-See [digits demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=digits.json) and [letters demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=letters.json).
+See [digits demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=digits.json), [letters demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=letters.json), and [face demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=lfw.json)
 
 Specify a json config file (e.g. ?config=digits.json) at the end of the URL.
 Edit the config file to specify your csv file and other customization values.
@@ -27,9 +27,10 @@ for more details. Firefox is fine.
 
 The first row of the csv file must contain the column names.
 <del>A column whose name begins with '@'</del>
-Fields appearing in the "labelF" array in the config file
-can be used as the coloring and/or the text labeling field.
-Fields appearing in the "ignoreF" array are ignored.
+Columns appearing in the <del>"labelF"</del> "labelCol" array
+in the config file can be used as the
+coloring and/or the text labeling field.
+Columns appearing in the <del>"ignoreF"</del> "ignoreCol" array are ignored.
 
 t-sne-lab is a front-end of Andrej Karpathy's
 [javascript implementation](https://github.com/karpathy/tsnejs)
@@ -44,4 +45,10 @@ edited to add the first row (column names) after said preprocessing.
    subsampled: ```perl -ne 's/(.*),(\d+)$/$2,$1/; print if $.%5==1' ~/optdigits.tes > digits.csv```
 2. letters.csv: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Letter+Recognition),
    subsampled: ```perl -ne 'print if $.%20==1' letter-recognition.data > letters.csv```
-3. ...
+3. lfw.csv: [Labeled Faces in the Wild](http://vis-www.cs.umass.edu/lfw/), encoded using [face_recognition](https://github.com/ageitgey/face_recognition)
+4. ...
+
+
+!["labeled faces in the wild" dataset](lfw.jpg)
+![a Taiwanese comedian and people he imitates, plus some more unrelated face pairs that look similar](simface.jpg)
+

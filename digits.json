@@ -1,6 +1,6 @@
 {
   "csvFN": "digits.csv",
-  "labelF": ["digit"],
+  "labelCol": ["digit"],
   "ignoreF": [],
   "batch": 5,
   "tsne": {

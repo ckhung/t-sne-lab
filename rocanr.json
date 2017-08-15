@@ -1,6 +1,6 @@
 {
   "csvFN": "http://localhost:5006/q/nearest?w=month&self=1&hd=1&topn=100&dim=999",
-  "labelF": ["word"],
+  "labelCol": ["word"],
   "ignoreF": ["prob"],
   "batch": 5,
   "tsne": {

@@ -19,8 +19,8 @@ $.getJSON(configFN).done(function(data) {
     batch: 10,
     interval: 30,
     transition: 300,
-    labelF: [],
-    ignoreF: [],
+    labelCol: [],
+    ignoreCol: [],
     numberF: [],
     pic: {
       colName: null,
@@ -55,13 +55,13 @@ function init(error, data) {
   G.data.keys = d3.keys(G.data[0]);
   G.data.keys.forEach(function(k){
 //    if (k.charAt(0) == '@')
-//      G.config.labelF.push(k);
-    if (G.config.labelF.indexOf(k) < 0 && G.config.ignoreF.indexOf(k) < 0) {
+//      G.config.labelCol.push(k);
+    if (G.config.labelCol.indexOf(k) < 0 && G.config.ignoreCol.indexOf(k) < 0) {
       G.config.numberF.push(k);
     }
   });
   G.config.numberF = G.config.numberF.sort();
-  var lf0 = G.config.labelF[0];
+  var lf0 = G.config.labelCol[0];
   G.data = G.data.filter(function (d, i) {
     var rn = (i+1).toString();
     for (var j = 0; j < G.config.numberF.length; ++j) {
@@ -90,7 +90,7 @@ function init(error, data) {
   $('#epsilon').val(G.config.tsne.epsilon);
 
   var t = '';
-  G.config.labelF.forEach(function (f) {
+  G.config.labelCol.forEach(function (f) {
     t += '<option value="' + f + '">' + f + '</option>\n';
   });
   $('#color-field').html(t).change(changePalette);
@@ -170,12 +170,6 @@ function init(error, data) {
     .attr('cx', 0)
     .attr('cy', 0)
     .attr('r', 10);
-  G.items.append('text')
-    .attr('x', 0)
-    .attr('y', 0)
-    .attr('dy', '0.7ex');
-    // https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
-    // dy can't be set using CSS.
   cell = $('#pal-39 + label');
   if (G.config.pic.colName) {
     cell.text('');
@@ -195,6 +189,12 @@ function init(error, data) {
     cell.text('X');
     $('#pal-39').attr('disabled',true);
   }
+  G.items.append('text')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('dy', '0.7ex');
+    // https://stackoverflow.com/questions/19127035/what-is-the-difference-between-svgs-x-and-dx-attribute
+    // dy can't be set using CSS.
   changeText();
   changeFontSize();
   changePalette();
@@ -266,12 +266,14 @@ function changePalette() {
       });
     if (G.config.pic.colName) {
       G.canvas.selectAll('.item-pic').style('visibility', 'hidden');
+      G.canvas.selectAll('.item circle').style('visibility', 'visible');
       G.canvas.selectAll('.item text').attr('y', 0);
     }
   } else {
+    G.canvas.selectAll('.item circle').style('visibility', 'hidden');
     G.canvas.selectAll('.item-pic').style('visibility', 'visible');
     var fs = parseFloat($('#choose-font-size').val());
-    G.canvas.selectAll('.item text').attr('y', G.config.pic.height*0.5+fs*0.4);
+    G.canvas.selectAll('.item text').attr('y', G.config.pic.height*0.5+fs*0.5);
   }
 }
 

@@ -1,6 +1,6 @@
 {
-  "csvFN": "lfw-encoding.csv",
-  "labelF": ["name"],
+  "csvFN": "lfw.csv",
+  "labelCol": ["name"],
   "ignoreF": ["freq"],
   "pic": {
     "colName": "name",

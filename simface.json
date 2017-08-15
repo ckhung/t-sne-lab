@@ -1,0 +1,15 @@
+{
+  "csvFN": "simface.csv",
+  "labelCol": ["filename", "姓名"],
+  "pic": {
+    "colName": "filename",
+    "prefix": "simface/",
+    "suffix": ".jpg",
+    "width": "50",
+    "height": "50"
+  },
+  "batch": 20,
+  "tsne": {
+    "perplexity": 3
+  }
+}
