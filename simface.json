@@ -6,7 +6,7 @@
     "prefix": "simface/",
     "suffix": ".jpg",
     "width": "50",
-    "height": "50"
+    "height": "57"
   },
   "batch": 20,
   "tsne": {
