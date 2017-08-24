@@ -14,17 +14,21 @@ You can also try different values of the perplexity
 and epsilon parameters.
 See [digits demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=digits.json), [letters demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=letters.json), and [face demo](https://ckhung.github.io/t-sne-lab/t-sne-lab.html?config=lfw.json)
 
-Specify a json config file (e.g. ?config=digits.json) at the end of the URL.
+t-sne-lab offers freedom and privacy by letting you download it
+and run it offline on your own computer.
+Just open the file t-sne-lab.html to see the digits example.
+Or you may also specify a different json config file
+(e.g. ?config=digits.json) at the end of the URL.
 Edit the config file to specify your csv file and other customization values.
 The csv file can be either a local file or a remote URL.
 Note however that when opening the html page as a local file
 (```file:///...```) in a chrome or chromium user,
 one has to give the ```--allow-file-access-from-files```
 option on the command line when starting the browser,
-unless the configuration file and the
-csv data file are both remote URL's.
+unless both the configuration file and the
+csv data file are both full URL's (including http://localhost/...).
 See [this illustration](https://github.com/ckhung/javascriptCanReadLocalFiles)
-for more details. Firefox is fine.
+for more details. Firefox works fine without this complication.
 
 The first row of the csv file must contain the column names.
 <del>A column whose name begins with '@'</del>
