@@ -21,7 +21,7 @@ $.getJSON(configFN).done(function(data) {
     transition: 300,
     labelCol: [],
     ignoreCol: [],
-    numberF: [],
+    numberCol: [],
     pic: {
       colName: null,
       prefix: '',
@@ -54,18 +54,23 @@ function init(error, data) {
   G.data = data[0];
   G.data.keys = d3.keys(G.data[0]);
   G.data.keys.forEach(function(k){
-//    if (k.charAt(0) == '@')
-//      G.config.labelCol.push(k);
+    if (!k || k.match(/^\s*$/)) {
+      var msg = 'Unexpected empty column name in header (1st) row.\n' +
+	'Are there two consecutive commas (,,)\n' +
+	'or a redundant comma at the end? Please fix.';
+      alert(msg);
+      throw new Error(msg);
+    }
     if (G.config.labelCol.indexOf(k) < 0 && G.config.ignoreCol.indexOf(k) < 0) {
-      G.config.numberF.push(k);
+      G.config.numberCol.push(k);
     }
   });
-  G.config.numberF = G.config.numberF.sort();
+  G.config.numberCol = G.config.numberCol.sort();
   var lf0 = G.config.labelCol[0];
   G.data = G.data.filter(function (d, i) {
     var rn = (i+1).toString();
-    for (var j = 0; j < G.config.numberF.length; ++j) {
-      var f = G.config.numberF[j];
+    for (var j = 0; j < G.config.numberCol.length; ++j) {
+      var f = G.config.numberCol[j];
       if (isNaN(d[f])) {
         if (d[lf0] === null) {
           console.log('ignoring row ' + rn + ' as an empty line');
@@ -80,7 +85,7 @@ function init(error, data) {
     return true;
   });
   G.raw = G.data.map(function(d) {
-    return G.config.numberF.map(function(f) { return parseFloat(d[f]); });
+    return G.config.numberCol.map(function(f) { return parseFloat(d[f]); });
   });
   $('#pause-resume').prop('disabled', true);
   $('#show-dataset').text(G.config.csvFN);

@@ -1,7 +1,7 @@
 {
   "csvFN": "letters.csv",
   "labelCol": ["letter"],
-  "ignoreF": [],
+  "ignoreCol": [],
   "batch": 5,
   "tsne": {
     "epsilon": 10,

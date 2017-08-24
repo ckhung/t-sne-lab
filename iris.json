@@ -1,7 +1,7 @@
 {
   "csvFN": "iris.csv",
   "labelCol": ["class"],
-  "ignoreF": [],
+  "ignoreCol": [],
   "batch": 100,
   "tsne": {
     "perplexity": 20

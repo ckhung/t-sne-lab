@@ -1,7 +1,7 @@
 {
   "csvFN": "digits.csv",
   "labelCol": ["digit"],
-  "ignoreF": [],
+  "ignoreCol": [],
   "batch": 5,
   "tsne": {
     "perplexity": 20

@@ -1,7 +1,7 @@
 {
   "csvFN": "lfw.csv",
   "labelCol": ["name"],
-  "ignoreF": ["freq"],
+  "ignoreCol": ["freq"],
   "pic": {
     "colName": "name",
     "prefix": "lfw/",
